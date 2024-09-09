@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Surprise!</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&display=swap");
+
+    @font-face {
+      font-family: "Typerighter";
+      src: url("Typerighter.woff") format("woff");
+    }
+
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f7f0f0;
+      font-family: "Typerighter", sans-serif;
+    }
+
+    .container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 20px;
+    }
+
+    .heart {
+      margin: 30px;
+      width: 100px;
+      height: 90px;
+      position: relative;
+      background: #ff4d4d;
+      transform: rotate(-45deg);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      width: 100px;
+      height: 90px;
+      border-radius: 50%;
+      background: #ff4d4d;
+      position: absolute;
+    }
+
+    .heart::before {
+      top: -50px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: 50px;
+      top: 0;
+    }
+
+    .message {
+      font-family: "Kalam", cursive;
+      font-weight: 700;
+      margin: 0;
+      padding: 20px;
+      font-size: 1.5em;
+      color: #333;
+      opacity: 0;
+      line-height: 1.5;
+      max-width: 500px;
+    }
+
+    .picture-placeholder {
+      width: 220px;
+      height: 220px;
+      background: #ddd;
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    #heart.clicked,
+    #picture-placeholder.clicked {
+      transform: scale(1.5) rotate(-45deg);
+      animation: blink 1s infinite;
+    }
+
+    #message.show {
+      opacity: 1;
+    }
+
+    @keyframes blink {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .heart {
+        margin: 0;
+      }
+
+      .message {
+        margin: 20px 0;
+      }
+
+      .picture-placeholder {
+        width: 180px;
+        height: 180px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="section">
+    <div class="container">
+      <div class="heart" id="heart"></div>
+      <div class="message" id="message">
+        💖 You are the reason my heart beats faster! 💖
+      </div>
+      <img src="/pexels-soldiervip-1386604.jpg" alt="Stylish Placeholder" id="picture-placeholder"
+        class="picture-placeholder" />
+    </div>
+  </div>
+
+  <script>
+    const heart = document.getElementById("heart");
+    const picturePlaceholder = document.getElementById("picture-placeholder");
+    const message = document.getElementById("message");
+
+    heart.addEventListener("click", handleClick);
+    picturePlaceholder.addEventListener("click", handleClick);
+
+    function handleClick() {
+      this.classList.toggle("clicked");
+      message.classList.toggle("show");
+
+      if (message.classList.contains("show")) {
+        const fullMessage = [
+          "Only you;",
+          "you’re the only thing I’ll see forever.",
+          "In my eyes, in my words, and in everything I do,",
+          "your sight is the only sight that will ever bring me peace.",
+        ];
+        typeWriterEffect(message, fullMessage, 50);
+      }
+    }
+
+    function typeWriterEffect(element, lines, speed) {
+      element.innerHTML = ""; // Clear the content before starting
+
+      let lineIndex = 0;
+
+      function typeLine() {
+        if (lineIndex < lines.length) {
+          typeText(lines[lineIndex], 0, function () {
+            element.innerHTML += "<br>";
+            lineIndex++;
+            typeLine();
+          });
+        }
+      }
+
+      function typeText(text, charIndex, callback) {
+        if (charIndex < text.length) {
+          element.innerHTML += text.charAt(charIndex);
+          setTimeout(function () {
+            typeText(text, charIndex + 1, callback);
+          }, speed);
+        } else {
+          callback();
+        }
+      }
+
+      typeLine();
+    }
+  </script>
+</body>
+
+</html>
